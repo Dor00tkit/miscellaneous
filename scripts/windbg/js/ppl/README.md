@@ -1,6 +1,6 @@
 # **PPL Helper**
 
-A [WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/) [JavaScript](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/javascript-debugger-scripting) extension to list and disable [[Protected Process Light](https://learn.microsoft.com/en-us/windows/win32/services/protecting-anti-malware-services-#introduction)] (PPL) protection on Windows processes.
+A [WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/) [JavaScript](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/javascript-debugger-scripting) extension to list and disable [Protected Process Light](https://learn.microsoft.com/en-us/windows/win32/services/protecting-anti-malware-services-#introduction) (PPL) protection on Windows processes.
 
 ## **Usage**
 
