@@ -1,6 +1,6 @@
 # Frida Inject Toolkit
 
-This project provides a Python script (`frida_inject.py`) to inject Frida JavaScript scripts into either a running or newly spawned process for dynamic analysis and instrumentation.
+This project provides a Python script (`frida_inject.py`) to inject a Frida JavaScript (`.js`) file into either a running process or a newly spawned one, for dynamic analysis and instrumentation.
 
 ## Project Structure
 
@@ -16,41 +16,61 @@ This project provides a Python script (`frida_inject.py`) to inject Frida JavaSc
 ## Usage
 
 ```bash
-python frida_inject.py -js "C:\path\to\ws32.js" [-pid <PID> | -program <exe>] [-argv "<args>"] [-print] [-log]
+python frida_inject.py -js "<path to JS>" [ -pid <PID> | -process_name <name> | -spwan_program <exe> [-argv "<args>"] ] [-print] [-log]
 ```
 
-### Options
+### Arguments
 
-- `-js <path>`: Path to the Frida JS script to inject (**required**).
-- `-pid <PID>`: PID of an already running target process.
-- `-program <path>`: Path to a program to spawn and instrument.
+- `-js <path>`: **(Required)** Path to the Frida JavaScript file to inject.
+- `-pid <PID>`: Inject into an existing process by PID.
+- `-process_name <name>`: Inject into a running process by name (e.g., `"notepad.exe"`).
+- `-spawn_program <path>`: Spawn a new process and inject into it.
 - `-argv "<args>"`: Command-line arguments for the spawned program.
-- `-print`: Print messages received from the script to the console.
-- `-log`: Save output to a log file.
+- `-print`: Print messages sent from the Frida script to stdout.
+- `-log`: Save messages to a log file (`frida_logfile_<pid|process|program>.txt`).
 
-### Example
+### Examples
 
-Inject into a running process:
+**Inject into a running process by PID**:
 
 ```bash
 python frida_inject.py -js "C:\path\to\ws32.js" -pid 1234 -print
 ```
 
-Spawn a new process and inject:
+**Inject into a running process by name**:
 
 ```bash
-python frida_inject.py -js "C:\path\to\ws32.js" -program "C:\Program Files (x86)\Nmap\ncat.exe" -argv "-l 8080" -print -log
+python frida_inject.py -js "C:\path\to\ws32.js" -process_name "notepad.exe" -log
 ```
+
+**Spawn a new process with arguments and inject**:
+
+```bash
+python frida_inject.py -js "C:\path\to\ws32.js" -spawn_program "C:\Program Files\Nmap\ncat.exe" -argv "-l 8080" -print -log
+```
+
+## Output
+
+- If `-print` is used, messages from the Frida script will be printed to the console.
+- If `-log` is used, messages will also be saved to a file:
+  - Named based on the target:
+    - `frida_logfile_<pid>.txt`
+    - `frida_logfile_<process_name>.txt`
+    - `frida_logfile_<program>.txt`
 
 ## Requirements
 
 - Python 3.x
-- Frida Python bindings:
-  ```bash
-  pip install frida
-  ```
+- [Frida](https://frida.re) Python bindings:
+
+```bash
+pip install frida
+```
 
 ## Notes
 
-- Use `Ctrl+D` on Unix or `Ctrl+Z` on Windows to exit and detach cleanly.
-- Logs will be written to `frida_logfile_<pid>.txt` or `frida_logfile_<program>.txt` depending on how the process was selected.
+- To cleanly detach from the instrumented process, use:
+  - `Ctrl+D` on Unix
+  - `Ctrl+Z` then `Enter` on Windows (cmd.exe)
+- If a process is spawned, it will be resumed only after the script is injected.
+- If logging is enabled, the log file is flushed continuously during execution.

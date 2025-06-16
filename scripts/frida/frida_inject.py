@@ -15,7 +15,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Inject frida JS to a new\\running process')
     parser.add_argument("-js", required=True, help='The target frida JS file path')
     parser.add_argument("-pid", required=False, help='The target process pid')
-    parser.add_argument("-program", required=False, help='The target program file path to spwan')
+    parser.add_argument("-process_name", required=False, help='The target process name')
+    parser.add_argument("-spawn_program", required=False, help='The target program file path to spawn')
     parser.add_argument("-argv", required=False, default="", help='The commandline for the program to run')
     parser.add_argument("-print", default=False, action="store_true", required=False,
                         help='Print sent messages')
@@ -42,6 +43,7 @@ def on_message(message, data):
 
 def main():
     global g_bPrintMsg, g_bLogToFile, g_log_file
+    pid = None
     options = parse_args()
     with open(options.js) as fs:
         script_content = fs.read()
@@ -52,21 +54,31 @@ def main():
     if options.log:
         if options.pid:
             log_file_name = f"frida_logfile_{options.pid}.txt"
+        elif options.process_name:
+            process_name = Path(options.process_name).stem
+            log_file_name = f"frida_logfile_{process_name}.txt"
         else:
-            program_name = Path(options.program).stem
+            program_name = Path(options.spawn_program).stem
             log_file_name = f"frida_logfile_{program_name}.txt"
         g_bLogToFile = True
         g_log_file = open(log_file_name, "wt")
         print(f"[+] Create output file @ {os.path.abspath(log_file_name)}")
 
     if options.pid:
-        session = frida.attach(int(options.pid))
+        pid = int(options.pid)
+        session = frida.attach(pid)
+        script = session.create_script(script_content)
+        script.on('message', on_message)
+        script.load()
+    
+    elif options.process_name:
+        session = frida.attach(options.process_name)
         script = session.create_script(script_content)
         script.on('message', on_message)
         script.load()
 
-    elif options.program:
-        program_path = os.path.abspath(options.program)
+    elif options.spawn_program:
+        program_path = os.path.abspath(options.spawn_program)
         final_argv = [program_path]
         if options.argv:
             list_argv = shlex.split(options.argv)
@@ -88,7 +100,8 @@ def main():
         if g_bLogToFile:
             g_log_file.close()
         session.detach()
-        frida.kill(pid)
+        if pid:
+            frida.kill(pid)
         sys.exit(0)
 
 if __name__ == "__main__":
