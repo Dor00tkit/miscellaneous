@@ -40,7 +40,7 @@ python frida_inject.py -js "C:\path\to\ws2_32.js" -pid 1234 -print
 **Inject into a running process by name**:
 
 ```bash
-python frida_inject.py -js "C:\path\to\ws2_32.js" -process_name "notepad.exe" -log
+python frida_inject.py -js "C:\path\to\ws2_32.js" -process_name "ncat.exe" -log
 ```
 
 **Spawn a new process with arguments and inject**:
