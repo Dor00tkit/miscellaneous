@@ -15,7 +15,7 @@ This project provides a Python script (`frida_inject.py`) to inject a Frida Java
 
 ## Usage
 
-```bash
+```
 python frida_inject.py -js "<path to JS>" [ -pid <PID> | -process_name <name> | -spwan_program <exe> [-argv "<args>"] ] [-print] [-log]
 ```
 
@@ -34,19 +34,19 @@ python frida_inject.py -js "<path to JS>" [ -pid <PID> | -process_name <name> | 
 **Inject into a running process by PID**:
 
 ```bash
-python frida_inject.py -js "C:\path\to\ws32.js" -pid 1234 -print
+python frida_inject.py -js "C:\path\to\ws2_32.js" -pid 1234 -print
 ```
 
 **Inject into a running process by name**:
 
 ```bash
-python frida_inject.py -js "C:\path\to\ws32.js" -process_name "notepad.exe" -log
+python frida_inject.py -js "C:\path\to\ws2_32.js" -process_name "notepad.exe" -log
 ```
 
 **Spawn a new process with arguments and inject**:
 
 ```bash
-python frida_inject.py -js "C:\path\to\ws32.js" -spawn_program "C:\Program Files\Nmap\ncat.exe" -argv "-l 8080" -print -log
+python frida_inject.py -js "C:\path\to\ws2_32.js" -spawn_program "C:\Program Files\Nmap\ncat.exe" -argv "-l 8080" -print -log
 ```
 
 ## Output
