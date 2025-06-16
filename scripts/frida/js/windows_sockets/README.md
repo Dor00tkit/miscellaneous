@@ -1,0 +1,6 @@
+This Frida script hooks key networking functions in `ws2_32.dll` to monitor socket activity in Windows applications.
+
+## Features
+* Hooks functions like [socket](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-socket), [bind](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-bind), [listen](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-listen), [accept](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-accept), [connect](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-connect), [recv](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-recv), [recvfrom](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-recvfrom), [send](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-send), [sendto](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-sendto), [closesocket](https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-closesocket) and their WSA variants.
+* Logs parameters and network data (hex-dumped) for both IPv4 and IPv6.
+* Supports output to console and\or Frida python script via [send](https://frida.re/docs/javascript-api/#communication-send).
