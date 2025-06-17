@@ -1,0 +1,6 @@
+This Frida script hooks key [ALPC](https://csandker.io/2022/05/24/Offensive-Windows-IPC-3-ALPC.html) functions in `ntdll.dll` to monitor ALPC activity in Windows applications.
+
+## Features
+* Hooks functions like [NtAlpcCreatePort](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L569), [NtAlpcAcceptConnectPort](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L748), [NtAlpcConnectPort](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L712), [NtAlpcConnectPortEx](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L730), [NtAlpcSendWaitReceivePort](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L763), [NtImpersonateClientOfPort](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L309), [NtAlpcCreatePortSection](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L607), [NtAlpcCreateSectionView](https://github.com/winsiderss/systeminformer/blob/v2.39/phnt/include/ntlpcapi.h#L647).
+* Logs parameters and messages body data (hex-dumped).
+* Supports output to console and\or Frida python script via [send](https://frida.re/docs/javascript-api/#communication-send).
